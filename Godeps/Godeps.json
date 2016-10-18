@@ -1,0 +1,6 @@
+{
+	"ImportPath": "github.com/tracyde/cf-env",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v58",
+	"Deps": []
+}

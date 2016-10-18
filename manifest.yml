@@ -1,0 +1,5 @@
+---
+applications:
+  - name: cf-env
+    env:
+      GO15VENDOREXPERIMENT: 0
