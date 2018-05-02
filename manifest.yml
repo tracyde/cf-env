@@ -1,5 +1,6 @@
 ---
 applications:
   - name: cf-env
+    random-route: true
     env:
       CFENV_BGCOLOR: white
