@@ -4,3 +4,4 @@ applications:
     random-route: true
     env:
       CFENV_BGCOLOR: white
+      GOPACKAGENAME: cf-env
