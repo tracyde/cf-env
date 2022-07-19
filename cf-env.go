@@ -1,20 +1,20 @@
 package main
 
 import (
-	"net/http"
 	"html/template"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 )
 
 var bgColor = "white" // set a sane default color for background
-var port = 8080 // by default listen to port 8080
+var port = 8080       // by default listen to port 8080
 
 type Environment struct {
-	Color string
-  Environment []string
-	Header map[string][]string
+	Color       string
+	Environment []string
+	Header      map[string][]string
 }
 
 func (e *Environment) SetColor(c string) {
@@ -22,7 +22,7 @@ func (e *Environment) SetColor(c string) {
 }
 
 func (e *Environment) SetEnvironment() {
-  e.Environment = os.Environ()
+	e.Environment = os.Environ()
 }
 
 func (e *Environment) SetHeader(r *http.Request) {
@@ -66,10 +66,10 @@ func main() {
 		port = i
 	}
 	http.HandleFunc("/kill", killHandler)
-  http.HandleFunc("/", handler)
+	http.HandleFunc("/", handler)
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
-  err := http.ListenAndServe(":" + strconv.Itoa(port), nil)
+	err := http.ListenAndServe(":"+strconv.Itoa(port), nil)
 	if err != nil {
-  	log.Fatal("ListenAndServe: ", err)
-  }
+		log.Fatal("ListenAndServe: ", err)
+	}
 }
