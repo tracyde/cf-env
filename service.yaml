@@ -1,15 +1,15 @@
 apiVersion: serving.knative.dev/v1
-      kind: Service
-      metadata:
-        name: cf-env
-        namespace: default
-      spec:
-        template:
-          spec:
-            containers:
-              - image: docker.io/tracyde/cf-env
-                env:
-                  - name: PORT
-                    value: 8080
-                  - name: CFENV_BGCOLOR
-                    value: "white"
+kind: Service
+metadata:
+  name: cf-env
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+        - image: docker.io/tracyde/cf-env
+          env:
+            - name: PORT
+              value: 8080
+            - name: CFENV_BGCOLOR
+              value: "white"
