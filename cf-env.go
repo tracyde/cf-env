@@ -58,7 +58,16 @@ func main() {
 	if c := os.Getenv("CFENV_BGCOLOR"); c != "" {
 		bgColor = c
 	}
+	// Set the listening port by setting the $CFENV_PORT env variable
 	if p := os.Getenv("CFENV_PORT"); p != "" {
+		i, err := strconv.Atoi(p)
+		if err != nil {
+			log.Fatal("CFENV_PORT Conversion: ", err)
+		}
+		port = i
+	}
+	// We will also check to see if $PORT was set, if it was $PORT takes precedence
+	if p := os.Getenv("PORT"); p != "" {
 		i, err := strconv.Atoi(p)
 		if err != nil {
 			log.Fatal("CFENV_PORT Conversion: ", err)
