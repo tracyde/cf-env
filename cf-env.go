@@ -1,15 +1,14 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 )
 
 var bgColor = "white" // set a sane default color for background
-var port = 8080       // by default listen to port 8080
 
 type Environment struct {
 	Color       string
@@ -58,26 +57,19 @@ func main() {
 	if c := os.Getenv("CFENV_BGCOLOR"); c != "" {
 		bgColor = c
 	}
-	// Set the listening port by setting the $CFENV_PORT env variable
-	if p := os.Getenv("CFENV_PORT"); p != "" {
-		i, err := strconv.Atoi(p)
-		if err != nil {
-			log.Fatal("CFENV_PORT Conversion: ", err)
-		}
-		port = i
-	}
 	// We will also check to see if $PORT was set, if it was $PORT takes precedence
-	if p := os.Getenv("PORT"); p != "" {
-		i, err := strconv.Atoi(p)
-		if err != nil {
-			log.Fatal("CFENV_PORT Conversion: ", err)
-		}
-		port = i
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	// Set the listening port by setting the $CFENV_PORT env variable
+	if os.Getenv("CFENV_PORT") != "" {
+		log.Fatal("cf-env: CFENV_PORT has been deprecated please use PORT instead!")
 	}
 	http.HandleFunc("/kill", killHandler)
 	http.HandleFunc("/", handler)
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
-	err := http.ListenAndServe(":"+strconv.Itoa(port), nil)
+	err := http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
